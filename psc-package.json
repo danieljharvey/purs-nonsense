@@ -1,0 +1,6 @@
+{
+  "name": "purs-react-basic",
+  "set": "psc-0.12.1-20181209",
+  "source": "https://github.com/purescript/package-sets.git",
+  "depends": ["console", "effect", "prelude", "psci-support", "react-basic"]
+}

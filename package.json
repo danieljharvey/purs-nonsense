@@ -1,0 +1,18 @@
+{
+  "name": "purs-react-basic",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "browserify": "^16.2.3",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  },
+  "scripts": {
+    "build": "pulp build",
+    "test": "pulp test",
+    "test:watch": "pulp -w test",
+    "serve": "serve -l 8000 -s ./html/",
+    "start": "pulp -w browserify --to ./html/index.js"
+  }
+}
