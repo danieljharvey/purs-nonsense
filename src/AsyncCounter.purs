@@ -10,7 +10,9 @@ import React.Basic.Components.Async (asyncWithLoader)
 import React.Basic.DOM as R
 import React.Basic.Events as RE
 import AsyncActionTypes (AsyncAction(..))
+
 import TotalButton (totalButton)
+import Form (form)
 
 component :: Component Props
 component = createComponent "AsyncCounter"
@@ -45,6 +47,9 @@ doRender self = fragment
                 , counter: self.state.counter
                 , onChange: RE.handler_ (send self Increment)
                 }
+  , form {
+    title: "Horses"
+  }
   , keyed (show self.state.counter) $
       asyncWithLoader (R.text "Loading...") do
         liftEffect $ log "start"
