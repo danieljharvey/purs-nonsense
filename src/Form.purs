@@ -6,6 +6,8 @@ import React.Basic (Component, JSX, StateUpdate(..), capture_, capture, createCo
 import React.Basic.DOM as R
 import React.Basic.DOM.Events (preventDefault, targetValue)
 import Type.Data.Boolean (kind Boolean)
+import Row (row)
+import Column (column)
 
 component :: Component FormProps
 component = createComponent "Form"
@@ -23,14 +25,6 @@ type State = {
   , hasClicked :: Boolean
   , hasChanged :: Boolean
   , value :: String
-}
-
-type InteractionState = {
-    focused :: Boolean
-  , hasFocused :: Boolean
-  , hasBlurred :: Boolean
-  , hasClicked :: Boolean
-  , hasChanged :: Boolean
 }
 
 form :: FormProps -> JSX
@@ -56,22 +50,36 @@ form = make component { initialState, update, render }
 
     render self =
         R.form_ [
-            R.div_ [ R.text self.props.title 
-                   , R.input { type: "text"
-                             , onBlur: capture_ self Blur
-                             , onClick: capture_ self Click
-                             , onFocus: capture_ self Focus
-                             , onChange: capture self (preventDefault >>> targetValue) (\a -> Change (fromMaybe "" a))
-                             }
-                   ], showState self.state
-        ]
+            column { children: [ R.text self.props.title 
+                               , R.input { type: "text"
+                                         , onBlur: capture_ self Blur
+                                         , onClick: capture_ self Click
+                                         , onFocus: capture_ self Focus
+                                         , onChange: capture self (preventDefault >>> targetValue) (\a -> Change (fromMaybe "" a))
+                                         }
+                               , R.text self.props.title 
+                               , R.text self.props.title 
+                               , R.text self.props.title 
+                               , R.input { type: "text"
+                                         , onBlur: capture_ self Blur
+                                         , onClick: capture_ self Click
+                                         , onFocus: capture_ self Focus
+                                         , onChange: capture self (preventDefault >>> targetValue) (\a -> Change (fromMaybe "" a))
+                                         }
+                               , R.text self.props.title 
+                               ]
+                    , style : R.css { background: "lightgray" }
+                    , spacing: 30
+                   }
+                , showState self.state
+                ]
 
 
 niceLabel :: String -> JSX
 niceLabel s = R.p_ [ R.text s ]
 
 showState :: State -> JSX
-showState state = R.div_ [
+showState state = row { children: [
   niceLabel ("Value: " <> state.value)
 , niceLabel ("Focused " <> show state.focused)
 , niceLabel ("Has focused " <> show state.hasFocused)
@@ -79,3 +87,6 @@ showState state = R.div_ [
 , niceLabel ("Has clicked " <> show state.hasClicked)
 , niceLabel ("Has changed " <> show state.hasChanged)
 ]
+, style: R.css { width: "100%" } 
+, spacing: 20
+}
