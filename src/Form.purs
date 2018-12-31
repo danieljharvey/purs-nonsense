@@ -92,7 +92,7 @@ form = make component { initialState, update, render }
 
 
 
-data TextBoxError = Empty | TooLong
+data TextBoxError = Empty | TooLongrn
 
 textBox :: FormInput TextBoxError String
 textBox =

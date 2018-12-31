@@ -1,17 +1,13 @@
 module Form.TextBox where
 
-import Prelude (($), (<>), discard, show, pure, unit, (>>>))
-import Data.Ord ((<))
-import Data.String (length)
+import Prelude (($), (>>>))
 import Data.Maybe (fromMaybe, Maybe(..))
 import React.Basic
 import React.Basic.DOM as R
 import React.Basic.DOM.Events (preventDefault, targetValue)
-import Effect.Console (log)
 import Type.Data.Boolean (kind Boolean)
 import InputType (FormInput)
 import Interaction (InteractionState, InteractionMode(..), defaultInteraction, click, blur, focus, change)
-import Validators (makeValidator)
 
 type InputProps e = {
   formInput :: FormInput e String
@@ -27,16 +23,13 @@ data InputAction = Blur
                  | Focus
                  | Change String
 
-type MyCompSpec e = ComponentSpec (InputProps e) InputState InputAction
+type ThisGuy e = Self (InputProps e) InputState InputAction
 
-component :: Component (forall e. InputProps e)
+component :: forall p. Component p
 component = createComponent "Input"
 
 input :: forall e. InputProps e -> JSX
-input = make component compSpec
-
-compSpec :: forall e. MyCompSpec e
-compSpec = { initialState, update, render }
+input = make component { initialState, update, render }
   where
     initialState =
       { interactionState: defaultInteraction Always
@@ -55,5 +48,5 @@ compSpec = { initialState, update, render }
                , onBlur: capture_ self $ Blur
                , onClick: capture_ self $ Click
                , onFocus: capture_ self $ Focus
-               , onChange: capture self (preventDefault >>> targetValue) (\a -> Change $ (fromMaybe "" a))
+               , onChange: capture self (preventDefault >>> targetValue) (\a -> Change $ (fromMaybe self.props.formInput.initial a))
                }

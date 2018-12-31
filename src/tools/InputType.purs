@@ -1,14 +1,14 @@
 module InputType where
 
 import Prelude (Unit)
-
+import Data.Either
 import Effect (Effect)
 import Interaction (InteractionState)
 import Validators
 
 type ReturnType e a =
   { interactionState :: InteractionState
-  , inputState :: Validator e a
+  , inputState :: Either e a
   }
 
 type FormInput e a =
