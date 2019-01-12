@@ -12,6 +12,11 @@ import Web.HTML (window)
 import Web.HTML.HTMLDocument (toNonElementParentNode)
 import Web.HTML.Window (document)
 
+data Dog a = Dog a
+
+dog :: a -> Dog [a]
+dog a = Dog [a,a]
+
 main :: Effect Unit
 main = do
   container <- getElementById "container" =<< (map toNonElementParentNode $ document =<< window)
